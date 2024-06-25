@@ -10,15 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var counterTextLabel: UILabel!
+    @IBOutlet private weak var counterTextLabel: UILabel!
     
-    @IBOutlet weak var incrementCounterButton: UIButton!
+    @IBOutlet private weak var incrementCounterButton: UIButton!
     
-    @IBOutlet weak var decrementCounterButton: UIButton!
+    @IBOutlet private weak var decrementCounterButton: UIButton!
     
-    @IBOutlet weak var resetCounterButton: UIButton!
+    @IBOutlet private weak var resetCounterButton: UIButton!
     
-    @IBOutlet weak var historyTextView: UITextView!
+    @IBOutlet private weak var historyTextView: UITextView!
     
     private var counterValue = 0
     
@@ -28,24 +28,25 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         counterTextLabel.text = "Значение счётчика: \(String(counterValue))"
-        
-        dateFormatter.dateFormat = "dd MMMM, yyyy 'at' HH:mm"
-        date = dateFormatter.string(from: Date())
-        
-        
         historyTextView.text = "История изменений: \n"
     }
     
-    @IBAction func incrementCounter(_ sender: Any) {
+    private func updateData() {
+        dateFormatter.dateFormat = "dd MMMM, yyyy 'at' HH:mm"
+        date = dateFormatter.string(from: Date())
+    }
+    
+    @IBAction private func incrementCounter(_ sender: Any) {
+        updateData()
         counterValue += 1
         counterTextLabel.text = "Значение счётчика: \(String(counterValue))"
         historyTextView.text += "\(date): значение изменено на +1 \n"
     }
     
-    @IBAction func decrementCounter(_ sender: Any) {
+    @IBAction private func decrementCounter(_ sender: Any) {
+        updateData()
         if counterValue <= 0 {
             historyTextView.text += "\(date): попытка уменьшить значение счётчика ниже 0 \n"
         } else {
@@ -55,10 +56,13 @@ class ViewController: UIViewController {
         counterTextLabel.text = "Значение счётчика: \(String(counterValue))"
     }
     
-    @IBAction func resetCounter(_ sender: Any) {
+    @IBAction private func resetCounter(_ sender: Any) {
+        updateData()
         counterValue = 0
         counterTextLabel.text = "Значение счётчика: \(String(counterValue))"
         historyTextView.text += "\(date): значение сброшено \n"
     }
     
 }
+
+
